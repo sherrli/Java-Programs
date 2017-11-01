@@ -1,0 +1,107 @@
+/ * Program has methods that return the average rainfall, max rainfall, and minimum rainfall year
+  * by storing the past 168 years of San Francisco's annual rainfall history into an array of doubles. */
+
+import java.util.Scanner;
+import java.io.*;
+
+public class AnalyzeFile {
+
+	public static void main(String[] args) {
+		double [] rainArray = populateArray();
+		Scanner mainScan = new Scanner(System.in);
+		System.out.println("Enter the option \"average\", \"highest\", \"lowest\":");
+		String userInput = mainScan.next();
+		
+		//evaluates the user's input to return the appropriate data
+		while (!(userInput.equals("quit"))) {
+
+			if (userInput.equals("average")) {
+			//prints the average rainfall to 2 decimals, scans again for user input when finished printing
+				System.out.print("Average rainfall since 1849: ");
+				System.out.printf("%.2f", findAverage(rainArray));
+				System.out.println(" inches");
+				System.out.println("\nEnter the option \"average\", \"highest\", \"lowest\":");
+				userInput = mainScan.next();	
+			} else if (userInput.equals("highest")) {
+			//prints the highest recorded rainfall, scans user input again after
+				int highIndex = findHighestYearIndex(rainArray);
+				System.out.print("Highest rainfall since 1849: " + rainArray[highIndex] + " inches which occured during year ");
+				System.out.println(1849+highIndex);
+				System.out.println("\nEnter the option \"average\", \"highest\", \"lowest\":");
+				userInput=mainScan.next();
+			} else if (userInput.equals("lowest")) {
+			//prints the lowest recorded rainfall, scans user input again after
+				int lowIndex = findLowestYearIndex(rainArray);
+				System.out.print("Lowest rainfall since 1849: " + rainArray[lowIndex] + " inches which occured during year ");
+				System.out.println(1849+lowIndex); 
+				System.out.println("\nEnter the option \"average\", \"highest\", \"lowest\":");
+				userInput=mainScan.next();
+			} else {
+			//the user did not enter a valid instruction! scan user input again!
+				System.out.println("Invalid input");
+				System.out.println("\nEnter the option \"average\", \"highest\", \"lowest\":");
+				userInput=mainScan.next();
+			}
+		}
+		System.out.println("Program done.");		
+        	return;
+	}
+
+	//scan and store data from a text file named "rainfall" into a double array
+	//print out an error message if text file can't be found in the same folder as AnalyzeFile.java (using Unix)
+	public static double[] populateArray() {
+		try {
+			//the try block attempts to scan doubles from a saved file
+			File f = new File("rainfall.txt");
+			Scanner methodScan = new Scanner(f);
+			double[] inchesRainfall = new double[168];
+			for (int i=0; i<168; i++) {
+				inchesRainfall[i] = methodScan.nextDouble();
+			}
+			methodScan.close();
+			return inchesRainfall;
+		}
+		catch (FileNotFoundException ex) {
+			System.out.println("File not found");
+		}
+		return null;
+		//returns null in case an exception was thrown
+	}
+
+	//method to search the array for the highest value, and return its index in the array
+	public static int findHighestYearIndex(double[] arr) {
+		double maxValue = arr[0];
+		int indexOfMaxValue = 0;
+		for (int i=0; i<168; i++) {
+			if (arr[i]>maxValue) {
+				maxValue = arr[i];
+				indexOfMaxValue = i;
+			}
+		}
+		return indexOfMaxValue;
+	}
+
+	//method to search the array for the lowest value, and return its index in the array
+	public static int findLowestYearIndex(double[] arr) {
+		double lowestValue = arr[0];
+		int indexOfLowestValue = 0;
+ 		for (int i=0; i<168; i++) {
+			if (arr[i]<lowestValue) {
+				lowestValue = arr[i];
+				indexOfLowestValue = i;
+			}
+		}
+		return indexOfLowestValue;
+	}
+
+	//method to return the average of all values in the array
+	public static double findAverage(double[] arr) {
+		double sumOfAllRainfall = 0.0;
+		for (int i=0; i<168; i++) {
+			sumOfAllRainfall+=arr[i];
+		}
+		double averageRainfall = sumOfAllRainfall/168.0;
+		return averageRainfall;
+	}
+
+}
