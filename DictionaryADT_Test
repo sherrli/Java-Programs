@@ -1,0 +1,4 @@
+/* Black box test client for my Dictionary ADT
+ * Includes static methods for each ADT operation defined in Dictionary ADT
+ * Tries to insert 1000 nodes into the linked list, test for efficiency of operations
+ */
