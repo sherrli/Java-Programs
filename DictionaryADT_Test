@@ -2,3 +2,200 @@
  * Includes static methods for each ADT operation defined in Dictionary ADT
  * Tries to insert 1000 nodes into the linked list, test for efficiency of operations
  */
+ 
+ public class DictionaryTest{
+
+        public static void main(String[] args){
+                if(isEmptyTest()){
+                        System.out.println("isEmptyTest() passed");
+                }else{
+                        System.out.println("isEmptyTest() failed");
+                }
+
+                if(insertTest()){
+                        System.out.println("isEmptyTest() passed");
+                }else{
+                        System.out.println("isEmptyTest() failed");
+                }
+
+                if(sizeTest()){
+                        System.out.println("sizeTest() passed");
+                }else{
+                        System.out.println("sizeTest() failed");
+                }
+
+                if(lookupTest()){
+                        System.out.println("lookupTest() passed");
+                }else{
+                        System.out.println("lookupTest() failed");
+                }
+
+                if(deleteTest()){
+                        System.out.println("deleteTest() passed");
+                }else{
+                        System.out.println("deleteTest() failed");
+                }
+
+                if(makeEmptyTest()){
+                        System.out.println("makeEmptyTest() passed");
+                }else{
+                        System.out.println("makeEmptyTest() failed");
+                }
+
+                if(toStringTest()){
+                        System.out.println("toStringTest() passed");
+                }else{
+                        System.out.println("toStringTest() failed");
+                }
+
+                // trying Isaak's grading script
+                Dictionary A = new Dictionary();
+                Dictionary B = new Dictionary();
+                final int test_range = 1000;
+                for(int i=0; i<test_range; i++){
+                        A.insert(i+1+"", "test"+i+1);
+                }
+                for(int i=test_range/10; i<test_range; i++){
+                        B.insert(i+1+"", "test"+i+1);
+                }
+
+                boolean failed = true;
+                try {
+                        A.delete("test");
+                } catch(KeyNotFoundException k) {
+                        failed = false;
+                }
+
+                if (failed) System.out.println("1st Keynotfoundexception not caught");
+                failed = true;
+                A.insert("test", "123");
+
+                try {
+                        A.insert("test", "123");
+                } catch(DuplicateKeyException d) {
+                        failed = false;
+                }
+
+                if (failed) System.out.println("1st Duplicatekeyexception not caught");
+                failed = true;
+
+                for (int i = test_range - 1; i >= 0; i--) {
+                        A.delete(i + 1 + "");
+                        try{
+                                A.delete(i + 1 + "");
+                        } catch (KeyNotFoundException k) {
+                                failed = false;
+                        }
+                        if (failed) System.out.println(i+1+"th Keynotfoundexception not caught");
+                        failed = true;
+                }
+
+                System.out.println("FINISHED ISAAK's TESTS");
+
+        }
+
+        public static boolean isEmptyTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                if(A.isEmpty() != true){
+                        flag = false;
+                }
+                return flag;
+        }
+
+        public static boolean insertTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                A.insert("one", "two");
+                if(A.isEmpty() != false){
+                        flag = false;
+                }
+                try{
+                        A.insert("one", "three");
+                }catch(DuplicateKeyException e){
+                        System.out.println("Caught Exception " + e);
+                        System.out.println("Continuing testing");
+                }
+                return flag;
+        }
+
+        public static boolean sizeTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                if(A.size() != 0){
+                        flag = false;
+                }
+                A.insert("another", "one");
+                if(A.size() != 1){
+                        flag = false;
+                }
+                return flag;
+        }
+
+        public static boolean lookupTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                if(A.lookup("0") != null){
+                        flag = false;
+                }
+                A.insert("1", "2");
+                if(A.lookup("1") != "2"){
+                        flag = false;
+                }
+                return flag;
+        }
+
+        public static boolean deleteTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                try{
+                        A.delete("nothing");
+                }catch(KeyNotFoundException e){
+                        System.out.println("Caught Exception " + e);
+                        System.out.println("Continuing testing");
+                }
+
+                A.insert("1", "here");
+                A.delete("1");
+
+                if(A.size() != 0){
+                        flag = false;
+                }
+                if(A.lookup("1") != null){
+                        flag = false;
+                }
+                if(A.isEmpty() != true){
+                        flag = false;
+                }
+                return flag;
+        }
+
+        public static boolean makeEmptyTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                A.insert("delete", "this");
+                A.insert("and", "this");
+                A.makeEmpty();
+                if(!(A.isEmpty())){
+                        flag = false;
+                }
+                return flag;
+        }
+
+        public static boolean toStringTest(){
+                boolean flag = true;
+                Dictionary A = new Dictionary();
+                if( (A.toString()).compareTo("") != 0 ){
+                        flag = false;
+                }
+                System.out.println(A.toString());
+                A.insert("1", "terminate");
+                A.insert("2", "with");
+                A.insert("3", "newline");
+                if( (A.toString()).compareTo("1 terminate\n2 with\n3 newline\n") != 0 ){
+                        flag = false;
+                }
+                System.out.println(A.toString());
+                return flag;
+        }
+ }
