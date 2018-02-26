@@ -13,9 +13,9 @@
                 }
 
                 if(insertTest()){
-                        System.out.println("isEmptyTest() passed");
+                        System.out.println("insertTest() passed");
                 }else{
-                        System.out.println("isEmptyTest() failed");
+                        System.out.println("insertTest() failed");
                 }
 
                 if(sizeTest()){
